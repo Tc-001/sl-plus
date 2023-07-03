@@ -3,7 +3,9 @@ import Generator from "./components/Generator";
 import List from "./components/List";
 import { SimpleLogin } from "./scripts/simplelogin";
 
-const [token, setToken] = createSignal(localStorage.getItem("sl_token") ?? "");
+const [token, setToken] = createSignal(
+	import.meta.env.VITE_SL_APIKEY ?? localStorage.getItem("sl_token") ?? ""
+);
 
 export { setToken };
 
@@ -23,7 +25,9 @@ export default function Main() {
 		<>
 			{token() ? (
 				<>
-					<button class="button is-danger" onClick={() => setToken("")}> Sign out </button>
+					<button class="button is-danger" onClick={() => setToken("")}>
+						Sign out
+					</button>
 					<div class="section">
 						<Generator />
 					</div>
