@@ -40,7 +40,7 @@ export default function Generator() {
 	const labels = {
 		is_premium: "🪙",
 		is_custom: "✏️",
-		is_free: "🆓"
+		is_free: "🆓",
 	};
 
 	return (
@@ -76,6 +76,8 @@ export default function Generator() {
 						required
 					/>
 				</div>
+			</div>
+			<div class="field has-addons has-addons-centered">
 				<div class="control">
 					<div class="select">
 						<select
@@ -87,7 +89,11 @@ export default function Generator() {
 							<For each={options()?.suffixes}>
 								{(suffix) => (
 									<option value={suffix.signed_suffix}>
-										{suffix.is_premium ? labels.is_premium : suffix.is_custom ? labels.is_custom : labels.is_free}
+										{suffix.is_premium
+											? labels.is_premium
+											: suffix.is_custom
+											? labels.is_custom
+											: labels.is_free}
 										{suffix.suffix}
 									</option>
 								)}
