@@ -5,24 +5,18 @@ import {
 	createResource,
 	createSignal,
 } from "solid-js";
-import { simpleLogin } from "../App";
 import { nanoid } from "nanoid";
+import { simpleLogin } from "../scripts/simplelogin";
 
-let [refetchId, setRefetchId] = createSignal(crypto.randomUUID());
+// let [refetchId, setRefetchId] = createSignal(crypto.randomUUID());
+// export let shouldRefetch = setRefetchId;
 
-export let shouldRefetch = setRefetchId;
+const [aliases, { refetch: refetchAliasList }] = createResource(() => {
+	return simpleLogin.listAliases(0);
+});
+export { refetchAliasList };
 
 export default function List() {
-	const [aliases, { refetch }] = createResource(() => {
-		return simpleLogin.listAliases(0);
-	});
-
-	createEffect(() => {
-		if (refetchId()) {
-			refetch();
-		}
-	});
-
 	return (
 		<div>
 			<For each={aliases()} fallback={<div>Loading...</div>}>
@@ -35,7 +29,7 @@ export default function List() {
 							//console.log("ShouldDelete changed", shouldDelete, alias.id);
 							if (shouldDelete) {
 								return await simpleLogin.deleteAlias(alias.id).finally(() => {
-									shouldRefetch(crypto.randomUUID());
+									refetchAliasList();
 								});
 							}
 						}

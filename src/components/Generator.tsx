@@ -1,7 +1,7 @@
 import { For, createResource, createSignal } from "solid-js";
-import { simpleLogin } from "../App";
-import { shouldRefetch } from "./List";
+import { refetchAliasList } from "./List";
 import { generators } from "../scripts/generators";
+import { simpleLogin } from "../scripts/simplelogin";
 
 export default function Generator() {
 	const [options, { refetch: refetchOptions }] = createResource(async () => {
@@ -29,7 +29,7 @@ export default function Generator() {
 		]);
 
 		// Refresh main alias list
-		shouldRefetch(crypto.randomUUID());
+		await refetchAliasList();
 		// Refetch domain list
 		await refetchOptions();
 

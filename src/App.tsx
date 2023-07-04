@@ -1,15 +1,13 @@
 import { createEffect, createSignal } from "solid-js";
-import Generator from "./components/Generator";
 import List from "./components/List";
-import { SimpleLogin } from "./scripts/simplelogin";
+import Generator from "./components/Generator";
+import { SimpleLogin, simpleLogin } from "./scripts/simplelogin";
 
 const [token, setToken] = createSignal(
 	import.meta.env.VITE_SL_APIKEY ?? localStorage.getItem("sl_token") ?? ""
 );
 
 export { setToken };
-
-export let simpleLogin: SimpleLogin = new SimpleLogin();
 
 createEffect(() => {
 	if (token() !== "") {

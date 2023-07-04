@@ -97,3 +97,5 @@ export class SimpleLogin {
 		});
 	}
 }
+
+export let simpleLogin: SimpleLogin = new SimpleLogin();
