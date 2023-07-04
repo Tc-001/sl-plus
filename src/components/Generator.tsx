@@ -4,13 +4,13 @@ import { shouldRefetch } from "./List";
 import { generators } from "../scripts/generators";
 
 export default function Generator() {
-	const [options, a] = createResource(async () => {
+	const [options, { refetch: refetchOptions }] = createResource(async () => {
 		return await simpleLogin.getAliasOptions();
 	});
 
-	const [settings, b] = createResource(async () => {
-		return await simpleLogin.getSettings();
-	});
+	//const [settings, b] = createResource(async () => {
+	//	return await simpleLogin.getSettings();
+	//});
 
 	const [aliasSettings, setAliasSettings] = createSignal({
 		prefix: "",
@@ -24,11 +24,16 @@ export default function Generator() {
 		)?.id;
 		if (!defaultMailbox) throw new Error("No default mailbox!");
 
-		return await simpleLogin
-			.newAlias(source.prefix, source.signedSuffix, [defaultMailbox])
-			.finally(() => {
-				shouldRefetch(crypto.randomUUID());
-			});
+		const res = await simpleLogin.newAlias(source.prefix, source.signedSuffix, [
+			defaultMailbox,
+		]);
+
+		// Refresh main alias list
+		shouldRefetch(crypto.randomUUID());
+		// Refetch domain list
+		await refetchOptions();
+
+		return res;
 	});
 
 	const [generatedAlias, { refetch: regenerateAlias }] = createResource(
@@ -65,7 +70,7 @@ export default function Generator() {
 						↻
 					</button>
 				</div>
-				<div class="control">
+				<div class="control is-expanded">
 					<input
 						class="input"
 						type="text"
@@ -78,8 +83,8 @@ export default function Generator() {
 				</div>
 			</div>
 			<div class="field has-addons has-addons-centered">
-				<div class="control">
-					<div class="select">
+				<div class="control is-expanded">
+					<div class="select is-fullwidth">
 						<select
 							class="domain_select"
 							name="domain"
