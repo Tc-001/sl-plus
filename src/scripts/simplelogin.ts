@@ -8,14 +8,13 @@ import type {
 import { nanoid } from "nanoid";
 
 export class SimpleLogin {
-	constructor(apiKey: string) {
-		if (apiKey !== "") {
-			this.apiKey = apiKey;
-			sessionStorage.setItem("apiKey", apiKey);
-		}
-	}
+	constructor() {}
 
-	private apiKey: string | null = sessionStorage.getItem("apiKey");
+	private apiKey: string | undefined = undefined;
+
+	public async setApiKey(apiKey: string) {
+		this.apiKey = apiKey;
+	}
 
 	private fetch = ky.create({
 		prefixUrl: "https://app.simplelogin.io/api/",

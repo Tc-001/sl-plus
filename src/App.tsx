@@ -9,12 +9,12 @@ const [token, setToken] = createSignal(
 
 export { setToken };
 
-export let simpleLogin: SimpleLogin = new SimpleLogin(token());
+export let simpleLogin: SimpleLogin = new SimpleLogin();
 
 createEffect(() => {
 	if (token() !== "") {
 		localStorage.setItem("sl_token", token());
-		simpleLogin = new SimpleLogin(token());
+		simpleLogin.setApiKey(token());
 	} else {
 		localStorage.removeItem("sl_token");
 	}
@@ -22,7 +22,13 @@ createEffect(() => {
 
 export default function Main() {
 	return (
-		<>
+		<div
+			style={{
+				width: "100%",
+				"max-width": "600px",
+				margin: "auto",
+			}}
+		>
 			{token() ? (
 				<>
 					<button class="button is-danger" onClick={() => setToken("")}>
@@ -50,6 +56,6 @@ export default function Main() {
 					/>
 				</div>
 			)}
-		</>
+		</div>
 	);
 }
