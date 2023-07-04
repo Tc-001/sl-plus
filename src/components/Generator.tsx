@@ -1,6 +1,10 @@
 import { For, createResource, createSignal } from "solid-js";
 import { refetchAliasList } from "./List";
-import { generators } from "../scripts/generators";
+import {
+	cycleGenerator,
+	generateWithCurrent,
+	generators,
+} from "../scripts/generators";
 import { simpleLogin } from "../scripts/simplelogin";
 
 export default function Generator() {
@@ -32,13 +36,15 @@ export default function Generator() {
 		await refetchAliasList();
 		// Refetch domain list
 		await refetchOptions();
+		// Regenerate alias
+		await regenerateAlias();
 
 		return res;
 	});
 
-	const [generatedAlias, { refetch: regenerateAlias }] = createResource(
+	const [generatedAlias, { refetch: regenerateAlias, mutate }] = createResource(
 		async () => {
-			return await generators.random();
+			return await generateWithCurrent();
 		}
 	);
 
@@ -62,7 +68,18 @@ export default function Generator() {
 			<div class="field has-addons has-addons-centered">
 				<div class="control">
 					<button
-						class="button is-info"
+						class="button is-dark"
+						type="button"
+						onClick={() => {
+							const generator = cycleGenerator();
+							mutate("> " + generator);
+						}}
+						disabled={createAlias.loading}
+					>
+						C
+					</button>
+					<button
+						class="button is-info is-radiusless"
 						type="button"
 						onClick={regenerateAlias}
 						disabled={createAlias.loading}
@@ -77,7 +94,11 @@ export default function Generator() {
 						placeholder="Alias"
 						name="prefix"
 						value={generatedAlias()}
-						disabled={createAlias.loading}
+						disabled={
+							createAlias.loading ||
+							generatedAlias.loading ||
+							generatedAlias()?.startsWith(">")
+						}
 						required
 					/>
 				</div>
@@ -111,7 +132,7 @@ export default function Generator() {
 						type="submit"
 						class="button is-success"
 						value="+"
-						disabled={createAlias.loading}
+						disabled={createAlias.loading || generatedAlias()?.startsWith(">")}
 					/>
 				</p>
 			</div>

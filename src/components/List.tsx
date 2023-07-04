@@ -7,6 +7,7 @@ import {
 } from "solid-js";
 import { nanoid } from "nanoid";
 import { simpleLogin } from "../scripts/simplelogin";
+import DeleteModal from "./DeleteModal";
 
 // let [refetchId, setRefetchId] = createSignal(crypto.randomUUID());
 // export let shouldRefetch = setRefetchId;
@@ -19,15 +20,18 @@ export { refetchAliasList };
 export default function List() {
 	return (
 		<div>
+			<Show when={aliases.loading}>
+				<div class="notification">Loading...</div>
+			</Show>
 			<For each={aliases()} fallback={<div>Loading...</div>}>
 				{(alias) => {
 					// Delete alias
-					const [shouldDelete, setDelete] = createSignal(false);
+					const [shouldDelete, setDelete] = createSignal<0 | 1 | 2>(0);
 					const [deleteState, {}] = createResource(
 						shouldDelete,
 						async (shouldDelete, _) => {
 							//console.log("ShouldDelete changed", shouldDelete, alias.id);
-							if (shouldDelete) {
+							if (shouldDelete === 2) {
 								return await simpleLogin.deleteAlias(alias.id).finally(() => {
 									refetchAliasList();
 								});
@@ -57,6 +61,13 @@ export default function List() {
 
 					return (
 						<div class="card block">
+							<Show when={shouldDelete() === 1}>
+								<DeleteModal
+									alias={alias.email}
+									onDelete={() => setDelete(2)}
+									onClose={() => setDelete(0)}
+								/>
+							</Show>
 							<header class="card-header">
 								<p class="card-header-title">{alias.email}</p>
 								<div class="card-header-icon">
@@ -67,7 +78,7 @@ export default function List() {
 										class="switch"
 										checked={enabledState()}
 										onChange={toggleEnable}
-										disabled={shouldDelete() || enabledState.loading}
+										disabled={shouldDelete() != 0 || enabledState.loading}
 									/>
 									<label for={toggleId} />
 								</div>
@@ -77,17 +88,13 @@ export default function List() {
 									{alias.nb_forward} forwards, {alias.nb_reply} replies,{" "}
 									{alias.nb_block} blocks.
 								</div>
-								<button class="button is-small" disabled={shouldDelete()}>
+								<button class="button is-small" disabled={shouldDelete() != 0}>
 									Reverse
 								</button>
 								<button
-									disabled={shouldDelete()}
+									disabled={shouldDelete() != 0}
 									class="button is-small is-danger"
-									onClick={() =>
-										confirm(
-											"Do you really want to delete alias " + alias.email + "?"
-										) && setDelete(true)
-									}
+									onClick={() => setDelete(1)}
 								>
 									Delete
 								</button>
