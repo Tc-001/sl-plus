@@ -36,6 +36,9 @@ devDependencies:
   vite:
     specifier: ^4.3.9
     version: 4.3.9(@types/node@20.3.1)(sass@1.63.6)
+  vite-plugin-lightningcss:
+    specifier: ^0.0.5
+    version: 0.0.5
   vite-plugin-solid:
     specifier: ^2.7.0
     version: 2.7.0(solid-js@1.7.6)(vite@4.3.9)
@@ -1383,6 +1386,12 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /detect-libc@1.0.3:
+    resolution: {integrity: sha512-pGjwhsmsp4kL2RTz08wcOlGN83otlqHeD/Z5T8GXZB+/YcpQ/dgo+lbU8ZsGxV0HIvqqxo9l7mqYwyYMD9bKDg==}
+    engines: {node: '>=0.10'}
+    hasBin: true
+    dev: true
+
   /diff-sequences@29.4.3:
     resolution: {integrity: sha512-ofrBgwpPhCD85kMKtE9RYFFq6OC1A89oW2vvgWZNCwxrUpRUILopY7lsYyMDSjc8g6U6aiO0Qubg6r4Wgt5ZnA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -1922,6 +1931,94 @@ packages:
     engines: {node: '>=14.16'}
     dev: false
 
+  /lightningcss-darwin-arm64@1.21.4:
+    resolution: {integrity: sha512-xqiS2QamPoecdTARl29JwjgrWYTlpQifKuIv40mEgpRaufC1oIPygVQ9P16tIYtZ1vyLBoWclAsbfsNFQnMv2A==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /lightningcss-darwin-x64@1.21.4:
+    resolution: {integrity: sha512-R6TfDHzl+kuZdrCfQWKhGf5b4K6XtVDfwQkMzncSimykchFwPzLe1QGKH3Cr45glBD265+2Hwmo4V6DYCiVcPQ==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /lightningcss-linux-arm-gnueabihf@1.21.4:
+    resolution: {integrity: sha512-fUYdxqr/Zmk2lbRKRP6HqUFxVPp12A+mU5v8DVgiwnbTmJn5vRvNUUPKEA+trCvyZ+pbSM4ikOS1OsPz8zeKyg==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /lightningcss-linux-arm64-gnu@1.21.4:
+    resolution: {integrity: sha512-rQmbEQzXoQK3/O8YuJyri3RreATpQ9mscODpYHLwG3behk021u4OCNyVL7m2GL4fL+6SZuwCccjiHp1e0WeM6A==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /lightningcss-linux-arm64-musl@1.21.4:
+    resolution: {integrity: sha512-qfGAOBXUatU1rSpGep3FvsgHqRY5vsjEPXylYuDVhdc/VoWFshTEC8W1pfgHBwGvl9S8HmHGHFPZATuidUHxKw==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /lightningcss-linux-x64-gnu@1.21.4:
+    resolution: {integrity: sha512-W5MJoozn3NE/9LEqbWQYGy1ZQoAordG0h/pSyv44+8eeDY1ufZK5LAw0+iFGYRcblcFDF69DElvLDEi59piCTg==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /lightningcss-linux-x64-musl@1.21.4:
+    resolution: {integrity: sha512-R/fT1c8g8xrrCeU1fSErUb31OBMR38KcEDmrwCmxzsSntJ7o9YkZdbVx1FWRqBy8A8tNHm3MyQqZzU/owTJszw==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /lightningcss-win32-x64-msvc@1.21.4:
+    resolution: {integrity: sha512-2G3X2GTLNwz4mLG60J8ala9FcN9hKy9aAaCImou69UeowjFCt0OMWlzNuwcZARDId0BVZRQn4vNFvRGqCPwMxA==}
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /lightningcss@1.21.4:
+    resolution: {integrity: sha512-/MhQpBRQgs5j35eC1ZMqOOQqDZyNCUKZRoMp3ftprEOb4vVkjfe1VoknD9BKskCT+bbqBf3Yt9XglJLXXZ+pfA==}
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      detect-libc: 1.0.3
+    optionalDependencies:
+      lightningcss-darwin-arm64: 1.21.4
+      lightningcss-darwin-x64: 1.21.4
+      lightningcss-linux-arm-gnueabihf: 1.21.4
+      lightningcss-linux-arm64-gnu: 1.21.4
+      lightningcss-linux-arm64-musl: 1.21.4
+      lightningcss-linux-x64-gnu: 1.21.4
+      lightningcss-linux-x64-musl: 1.21.4
+      lightningcss-win32-x64-msvc: 1.21.4
+    dev: true
+
   /local-pkg@0.4.3:
     resolution: {integrity: sha512-SFppqq5p42fe2qcZQqqEOiVRXl+WCP1MdT6k7BDEW1j++sp5fIY+/fdRQitvKgB5BrBcmrs5m/L0v2FrU5MY1g==}
     engines: {node: '>=14'}
@@ -2451,6 +2548,13 @@ packages:
       - sugarss
       - supports-color
       - terser
+    dev: true
+
+  /vite-plugin-lightningcss@0.0.5:
+    resolution: {integrity: sha512-lhz5GkXeRT/k09A7qEqmoL3CwdJDHgODPeGVlWGU1UxuGPEKfvSpKnDXza8nawKvxvc0eawJEsKjBzQP4AeGHw==}
+    dependencies:
+      browserslist: 4.21.9
+      lightningcss: 1.21.4
     dev: true
 
   /vite-plugin-solid@2.7.0(solid-js@1.7.6)(vite@4.3.9):
