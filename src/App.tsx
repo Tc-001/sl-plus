@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "solid-js";
+import { ErrorBoundary, createEffect, createSignal } from "solid-js";
 import List from "./components/List";
 import Generator from "./components/Generator";
 import { SimpleLogin, simpleLogin } from "./scripts/simplelogin";
@@ -7,14 +7,19 @@ const [token, setToken] = createSignal(
 	import.meta.env.VITE_SL_APIKEY ?? localStorage.getItem("sl_token") ?? ""
 );
 
+const [showUI, setShowUI] = createSignal(token().length > 10);
+
 export { setToken };
 
 createEffect(() => {
-	if (token() !== "") {
+	console.log("Token changed", token());
+	if (token() != "") {
 		localStorage.setItem("sl_token", token());
-		simpleLogin.setApiKey(token());
+		simpleLogin.setApiKey(token()).catch(() => {});
+		setShowUI(true);
 	} else {
 		localStorage.removeItem("sl_token");
+		setShowUI(false);
 	}
 });
 
@@ -27,16 +32,20 @@ export default function Main() {
 				margin: "auto",
 			}}
 		>
-			{token() ? (
+			{showUI() ? (
 				<>
 					<button class="button is-danger" onClick={() => setToken("")}>
 						Sign out
 					</button>
 					<div class="section">
-						<Generator />
+						<ErrorBoundary fallback={(err) => err}>
+							<Generator />
+						</ErrorBoundary>
 					</div>
 					<div class="section">
-						<List />
+						<ErrorBoundary fallback={(err) => err}>
+							<List />
+						</ErrorBoundary>
 					</div>
 				</>
 			) : (
@@ -50,8 +59,16 @@ export default function Main() {
 						placeholder="Token"
 						id="token"
 						value={token()}
-						onInput={(e) => setToken(e.currentTarget.value)}
 					/>
+					<button
+						onClick={() => {
+							setToken(
+								document.querySelector<HTMLInputElement>("#token")!.value
+							);
+						}}
+					>
+						Sign in
+					</button>
 				</div>
 			)}
 		</div>

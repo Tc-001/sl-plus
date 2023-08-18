@@ -13,20 +13,20 @@
   "license": "MIT",
   "devDependencies": {
     "@solidjs/testing-library": "^0.8.4",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^6.0.1",
     "jsdom": "^22.1.0",
-    "solid-devtools": "^0.27.3",
-    "vite": "^4.3.9",
+    "solid-devtools": "^0.27.7",
+    "vite": "^4.4.9",
     "vite-plugin-lightningcss": "^0.0.5",
     "vite-plugin-solid": "^2.7.0",
-    "vitest": "^0.32.4"
+    "vitest": "^0.34.2"
   },
   "dependencies": {
     "bulma": "^0.9.4",
     "bulma-switch": "^2.0.4",
     "ky": "^0.33.3",
     "nanoid": "^4.0.2",
-    "sass": "^1.63.6",
-    "solid-js": "^1.7.7"
+    "sass": "^1.66.0",
+    "solid-js": "^1.7.11"
   }
 }
