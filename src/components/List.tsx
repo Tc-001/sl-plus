@@ -32,6 +32,11 @@ export default function List() {
 						async (shouldDelete, _) => {
 							//console.log("ShouldDelete changed", shouldDelete, alias.id);
 							if (shouldDelete === 2) {
+								if (import.meta.env.DEV) {
+									alert("Deleting alias " + alias.id);
+									return;
+								}
+
 								return await simpleLogin.deleteAlias(alias.id).finally(() => {
 									refetchAliasList();
 								});
