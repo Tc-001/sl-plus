@@ -38,6 +38,7 @@ export interface AliasOptions {
 		suffix: string;
 		is_custom: boolean;
 		is_premium: boolean;
+		is_random: true | undefined;
 	}[];
 }
 

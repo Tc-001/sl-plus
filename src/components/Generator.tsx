@@ -52,6 +52,7 @@ export default function Generator() {
 		is_premium: "🪙",
 		is_custom: "✏️",
 		is_free: "🆓",
+		is_random: "🎲",
 	};
 
 	return (
@@ -115,6 +116,7 @@ export default function Generator() {
 							<For each={options()?.suffixes}>
 								{(suffix) => (
 									<option value={suffix.signed_suffix}>
+										{suffix.is_random ? labels.is_random : ""}
 										{suffix.is_premium
 											? labels.is_premium
 											: suffix.is_custom

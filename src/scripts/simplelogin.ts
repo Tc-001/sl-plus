@@ -55,6 +55,18 @@ export class SimpleLogin {
 				);
 			});
 
+			// Include a random premium suffix as the default option
+			const randomPremiumSuffix = options.suffixes
+				.sort(() => Math.random() - 0.5)
+				.find((suffix) => suffix.is_premium);
+
+			if (!randomPremiumSuffix) return options;
+
+			options.suffixes.unshift({
+				...randomPremiumSuffix,
+				is_random: true,
+			});
+
 			return options;
 		});
 	}
